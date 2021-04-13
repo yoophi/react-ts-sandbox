@@ -1,30 +1,6 @@
-import { Action } from "../actions";
 import { ActionType } from "../action-types";
-import { Dispatch } from "redux";
+import { createAction } from 'typesafe-actions'
 
-export const addTodo = (text: string) => {
-  return (dispatch: Dispatch<Action>) => {
-    dispatch({
-      type: ActionType.ADD_TODO,
-      payload: text,
-    });
-  };
-};
-
-export const toggleTodo = (id: number) => {
-  return (dispatch: Dispatch<Action>) => {
-    dispatch({
-      type: ActionType.TOGGLE_TODO,
-      payload: id,
-    });
-  };
-};
-
-export const removeTodo = (id: number) => {
-  return (dispatch: Dispatch<Action>) => {
-    dispatch({
-      type: ActionType.REMOVE_TODO,
-      payload: id,
-    });
-  };
-};
+export const addTodo = createAction(ActionType.ADD_TODO)<string>()
+export const toggleTodo = createAction(ActionType.TOGGLE_TODO)<number>()
+export const removeTodo = createAction(ActionType.REMOVE_TODO)<number>()
