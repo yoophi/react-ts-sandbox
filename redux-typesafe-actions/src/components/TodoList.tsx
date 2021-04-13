@@ -1,55 +1,37 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
-
-type TodoType = {
-  id: number;
-  text: string;
-  done: boolean;
-};
-type TodoListType = TodoType[];
-const initialState: TodoListType = [];
+import { ChangeEvent, FormEvent, useState } from "react";
+import { addTodo, removeTodo, toggleTodo } from "../state/reducers/todo";
+import { useDispatch, useSelector } from "react-redux";
+import { RootStateType } from "../state/store";
 
 const TodoList = () => {
-  const [todos, setTodos] = useState<TodoListType>(initialState);
-  const input = useRef<HTMLInputElement>(null);
+  const todos = useSelector((state: RootStateType) => state.todos);
+  const [value, setValue] = useState("");
+  const dispatch = useDispatch();
+
+  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setTodos([
-      ...todos,
-      {
-        id: Math.max(...todos.map((todo) => todo.id)) + 1,
-        text: String(input.current?.value),
-        done: false,
-      },
-    ]);
+    dispatch(addTodo(value));
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setTodos([
-        { id: 1, text: "study node.js", done: true },
-        { id: 2, text: "study react", done: false },
-        { id: 3, text: "study typescript", done: false },
-      ]);
-    }, 2000);
-  }, []);
-
   const onToggle = (id: number) => () => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, done: !todo.done } : todo
-      )
-    );
+    dispatch(toggleTodo(id));
   };
-
   const onRemove = (id: number) => () => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    dispatch(removeTodo(id));
   };
 
   return (
     <div>
       <h2>Todo List (count: {todos.length})</h2>
       <form onSubmit={onSubmit}>
-        <input type="text" placeholder="add todo" ref={input} />
+        <input
+          type="text"
+          placeholder="add todo"
+          value={value}
+          onChange={onChangeInput}
+        />
         <button type="submit">Add</button>
       </form>
       {todos.length ? (
