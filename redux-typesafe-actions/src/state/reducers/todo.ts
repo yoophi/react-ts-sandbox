@@ -1,5 +1,6 @@
 import { ActionType } from "../action-types";
 import { Action } from "../actions";
+import { createReducer } from "typesafe-actions";
 
 type TodoType = {
   id: number;
@@ -15,27 +16,23 @@ const initialState: TodoState = [
   { id: 3, text: "study typescript", done: false },
 ];
 
-export const todoReducer = (
-  state: TodoState = initialState,
-  action: Action
-): TodoState => {
-  switch (action.type) {
-    case ActionType.ADD_TODO:
-      return [
-        ...state,
-        {
-          id: Math.max(...state.map((todo) => todo.id)) + 1,
-          text: action.payload,
-          done: false,
-        },
-      ];
-    case ActionType.TOGGLE_TODO:
-      return state.map((todo) =>
-        todo.id === action.payload ? { ...todo, done: !todo.done } : todo
-      );
-    case ActionType.REMOVE_TODO:
-      return state.filter((todo) => todo.id !== action.payload);
-    default:
-      return state;
-  }
-};
+export const todoReducer = createReducer<TodoState, Action>(initialState, {
+  [ActionType.ADD_TODO]: (state, { payload: text }) => {
+    return [
+      ...state,
+      {
+        id: Math.max(...state.map((todo) => todo.id)) + 1,
+        text: text,
+        done: false,
+      },
+    ];
+  },
+  [ActionType.TOGGLE_TODO]: (state, { payload: id }) => {
+    return state.map((todo) =>
+      todo.id === id ? { ...todo, done: !todo.done } : todo
+    );
+  },
+  [ActionType.REMOVE_TODO]: (state, { payload: id }) => {
+    return state.filter((todo) => todo.id !== id);
+  },
+});
