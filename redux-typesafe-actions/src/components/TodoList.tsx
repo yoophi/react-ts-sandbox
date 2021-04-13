@@ -27,11 +27,19 @@ const TodoList = () => {
     setTimeout(() => {
       setTodos([
         { id: 1, text: "study node.js", done: true },
-        { id: 2, text: "study react", done: true },
-        { id: 3, text: "study typescript", done: true },
+        { id: 2, text: "study react", done: false },
+        { id: 3, text: "study typescript", done: false },
       ]);
     }, 2000);
   }, []);
+
+  const onToggle = (id: number) => () => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, done: !todo.done } : todo
+      )
+    );
+  };
 
   return (
     <div>
@@ -43,7 +51,14 @@ const TodoList = () => {
       {todos.length ? (
         <ul>
           {todos.map((todo) => (
-            <li key={todo.id}>{todo.text}</li>
+            <li key={todo.id}>
+              <span
+                onClick={onToggle(todo.id)}
+                className={todo.done ? "done" : ""}
+              >
+                {todo.text}
+              </span>
+            </li>
           ))}
         </ul>
       ) : (
