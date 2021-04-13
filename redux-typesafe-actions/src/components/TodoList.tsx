@@ -1,25 +1,27 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { addTodo, removeTodo, toggleTodo } from "../state/reducers/todo";
 import { useDispatch, useSelector } from "react-redux";
-import { RootStateType } from "../state/store";
+import { RootState } from "../state";
+import { useTypedSelector } from "../hooks/useTypedSelector";
+import { useActions } from "../hooks/useActions";
 
 const TodoList = () => {
-  const todos = useSelector((state: RootStateType) => state.todos);
-  const [value, setValue] = useState("");
+  const [text, setText] = useState("");
   const dispatch = useDispatch();
+  const todos = useTypedSelector((state) => state.todos);
+  const { addTodo, toggleTodo, removeTodo } = useActions();
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    setText(e.target.value);
   };
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    dispatch(addTodo(value));
+    addTodo(text);
   };
   const onToggle = (id: number) => () => {
-    dispatch(toggleTodo(id));
+    toggleTodo(id);
   };
   const onRemove = (id: number) => () => {
-    dispatch(removeTodo(id));
+    removeTodo(id);
   };
 
   return (
@@ -29,7 +31,7 @@ const TodoList = () => {
         <input
           type="text"
           placeholder="add todo"
-          value={value}
+          value={text}
           onChange={onChangeInput}
         />
         <button type="submit">Add</button>

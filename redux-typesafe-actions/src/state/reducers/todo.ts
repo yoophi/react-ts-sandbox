@@ -1,3 +1,6 @@
+import { ActionType } from "../action-types";
+import { Action } from "../actions";
+
 type TodoType = {
   id: number;
   text: string;
@@ -5,44 +8,6 @@ type TodoType = {
 };
 
 export type TodoState = TodoType[];
-
-enum ActionType {
-  ADD_TODO = "todo/ADD_TODO",
-  TOGGLE_TODO = "todo/TOGGLE_TODO",
-  REMOVE_TODO = "todo/REMOVE_TODO",
-}
-
-export const addTodo = (text: string) => ({
-  type: ActionType.ADD_TODO,
-  payload: text,
-});
-
-export const toggleTodo = (id: number) => ({
-  type: ActionType.TOGGLE_TODO,
-  payload: id,
-});
-
-export const removeTodo = (id: number) => ({
-  type: ActionType.REMOVE_TODO,
-  payload: id,
-});
-
-interface AddTodoAction {
-  type: ActionType.ADD_TODO;
-  payload: string;
-}
-
-interface ToggleTodoAction {
-  type: ActionType.TOGGLE_TODO;
-  payload: number;
-}
-
-interface RemoveTodoAction {
-  type: ActionType.REMOVE_TODO;
-  payload: number;
-}
-
-type TodoAction = AddTodoAction | ToggleTodoAction | RemoveTodoAction;
 
 const initialState: TodoState = [
   { id: 1, text: "study node.js", done: true },
@@ -52,7 +17,7 @@ const initialState: TodoState = [
 
 export const todoReducer = (
   state: TodoState = initialState,
-  action: TodoAction
+  action: Action
 ): TodoState => {
   switch (action.type) {
     case ActionType.ADD_TODO:

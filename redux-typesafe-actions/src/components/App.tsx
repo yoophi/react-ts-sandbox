@@ -1,8 +1,8 @@
 import React from "react";
-import TodoList from "./components/TodoList";
-import "./App.css";
+import TodoList from "./TodoList";
+import "../App.css";
 import { Provider } from "react-redux";
-import store from "./state/store";
+import { store } from "../state";
 
 function App() {
   return (

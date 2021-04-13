@@ -1,11 +1,5 @@
-import { createStore } from "redux";
-import { combineReducers } from "@reduxjs/toolkit";
-import { todoReducer } from "./reducers/todo";
+import { applyMiddleware, createStore } from "redux";
+import reducers from "./reducers";
+import thunk from "redux-thunk";
 
-const rootReducer = combineReducers({
-  todos: todoReducer,
-});
-export type RootStateType = ReturnType<typeof rootReducer>;
-const store = createStore(rootReducer);
-
-export default store;
+export const store = createStore(reducers, {}, applyMiddleware(thunk));
