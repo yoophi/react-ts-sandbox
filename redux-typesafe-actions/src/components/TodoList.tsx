@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 type TodoType = {
   id: number;
@@ -10,6 +10,18 @@ const initialState: TodoListType = [];
 
 const TodoList = () => {
   const [todos, setTodos] = useState<TodoListType>(initialState);
+  const input = useRef<HTMLInputElement>(null);
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    setTodos([
+      ...todos,
+      {
+        id: Math.max(...todos.map((todo) => todo.id)) + 1,
+        text: String(input.current?.value),
+        done: false,
+      },
+    ]);
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -24,6 +36,10 @@ const TodoList = () => {
   return (
     <div>
       <h2>Todo List (count: {todos.length})</h2>
+      <form onSubmit={onSubmit}>
+        <input type="text" placeholder="add todo" ref={input} />
+        <button type="submit">Add</button>
+      </form>
       {todos.length ? (
         <ul>
           {todos.map((todo) => (
