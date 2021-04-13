@@ -41,6 +41,10 @@ const TodoList = () => {
     );
   };
 
+  const onRemove = (id: number) => () => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
   return (
     <div>
       <h2>Todo List (count: {todos.length})</h2>
@@ -57,6 +61,9 @@ const TodoList = () => {
                 className={todo.done ? "done" : ""}
               >
                 {todo.text}
+              </span>
+              <span onClick={onRemove(todo.id)} className="remove">
+                (x)
               </span>
             </li>
           ))}

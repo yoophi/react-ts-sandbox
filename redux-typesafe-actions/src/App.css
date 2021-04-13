@@ -2,3 +2,8 @@
   text-decoration: line-through;
   color: #999999;
 }
+
+.remove {
+  color: #ff0000;
+  margin-left: 0.5em;
+}
