@@ -1,7 +1,14 @@
+import Pokemon from "./Pokemon";
 import React from "react";
+import Search from "./Search";
 
 function App() {
-  return <div>Pokemon Client</div>;
+  return (
+    <div>
+      <Search />
+      <Pokemon />
+    </div>
+  );
 }
 
 export default App;
