@@ -5,4 +5,6 @@ const RootReducer = combineReducers({
   pokemon: pokemonReducer,
 });
 
+export type RootState = ReturnType<typeof RootReducer>;
+
 export default RootReducer;
