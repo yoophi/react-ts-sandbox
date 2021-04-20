@@ -1,13 +1,12 @@
-import { applyMiddleware, createStore } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
 
-import RootReducer from "./reducers";
-import { composeWithDevTools } from "redux-devtools-extension";
-import thunk from "redux-thunk";
+import pokemonReducer from "./reducers/PokemonReducer";
 
-export const store = createStore(
-  RootReducer,
-  {},
-  composeWithDevTools(applyMiddleware(thunk))
-);
+export const store = configureStore({
+  reducer: {
+    pokemon: pokemonReducer,
+  },
+});
 
-export type RootStore = ReturnType<typeof RootReducer>;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
