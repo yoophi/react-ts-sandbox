@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useState } from "react";
-import { useDispatch } from "react-redux";
 import { getPokemon } from "../state/action-creators";
+import { useAppDispatch } from "../hooks";
 
 const Search = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [pokemonName, setPokemonName] = useState("");
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setPokemonName(e.target.value);

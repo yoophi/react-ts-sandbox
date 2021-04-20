@@ -1,11 +1,10 @@
 import Pokemon from "./Pokemon";
 import React from "react";
 import Search from "./Search";
-import { useSelector } from "react-redux";
-import { RootState } from "../state";
+import { useAppSelector } from "../hooks";
 
 function App() {
-  const { pokemon } = useSelector((state: RootState) => state.pokemon);
+  const { pokemon } = useAppSelector((state) => state.pokemon);
 
   return (
     <div>
