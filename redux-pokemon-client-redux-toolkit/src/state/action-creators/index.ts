@@ -1,24 +1,10 @@
-import { Dispatch } from "react";
-import { ActionType } from "../action-types";
-import axios from "axios";
-import { Action } from "../action";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { searchByName } from "../api";
 
-export const getPokemon = (pokemon: string) => async (
-  dispatch: Dispatch<Action>
-) => {
-  try {
-    dispatch({
-      type: ActionType.POKEMON_LOADING,
-    });
-
-    const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
-    dispatch({
-      type: ActionType.POKEMON_SUCCESS,
-      payload: res.data,
-    });
-  } catch (e) {
-    dispatch({
-      type: ActionType.POKEMON_FAIL,
-    });
+export const searchPokemonByName = createAsyncThunk(
+  "pokemon/SEARCH_BY_NAME",
+  async (pokemonName: string, thunkAPI) => {
+    const response = await searchByName(pokemonName);
+    return response.data;
   }
-};
+);

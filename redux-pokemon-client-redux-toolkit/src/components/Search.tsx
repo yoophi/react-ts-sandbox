@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
-import { getPokemon } from "../state/action-creators";
+import { actionCreators } from "../state";
 import { useAppDispatch } from "../hooks";
 
 const Search = () => {
@@ -9,7 +9,7 @@ const Search = () => {
     setPokemonName(e.target.value);
 
   const handleSubmit = () => {
-    dispatch(getPokemon(pokemonName));
+    dispatch(actionCreators.searchPokemonByName(pokemonName));
   };
 
   return (

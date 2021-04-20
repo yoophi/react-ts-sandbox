@@ -1,36 +1,32 @@
-import { ActionType } from "../action-types";
-import { Action, PokemonType } from "../action";
+import { PokemonType } from "../action";
+import { createSlice } from "@reduxjs/toolkit";
+import { searchPokemonByName } from "../action-creators";
 
-interface IDefaultState {
+interface IPokemonState {
   loading: boolean;
   pokemon?: PokemonType;
 }
 
-const defaultState: IDefaultState = {
+const initialState: IPokemonState = {
   loading: false,
 };
 
-const pokemonReducer = (
-  state: IDefaultState = defaultState,
-  action: Action
-) => {
-  switch (action.type) {
-    case ActionType.POKEMON_LOADING:
-      return {
-        loading: true,
-      };
-    case ActionType.POKEMON_SUCCESS:
-      return {
-        loading: false,
-        pokemon: action.payload,
-      };
-    case ActionType.POKEMON_FAIL:
-      return {
-        loading: false,
-      };
-    default:
-      return state;
-  }
-};
+const pokemonSlice = createSlice({
+  name: "pokemon",
+  initialState: initialState,
+  reducers: {},
+  extraReducers: {
+    [searchPokemonByName.pending.type]: (state, action) => {
+      state.loading = true;
+    },
+    [searchPokemonByName.fulfilled.type]: (state, action) => {
+      state.loading = false;
+      state.pokemon = action.payload;
+    },
+    [searchPokemonByName.rejected.type]: (state, action) => {
+      state.loading = false;
+    },
+  },
+});
 
-export default pokemonReducer;
+export default pokemonSlice.reducer;
