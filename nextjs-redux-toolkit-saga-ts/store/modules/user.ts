@@ -1,35 +1,63 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export type UserState = {
-  isLoggedIn: boolean;
+  userLoading: boolean;
   userData: any;
+  error: any;
 };
 
-export type LoginPayload = {
+export type LoginRequestPayload = {
   userId: string;
   password: string;
 };
 
 const initialState: UserState = {
-  isLoggedIn: false,
+  userLoading: false,
   userData: null,
+  error: null,
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    loginAction(state: UserState, action: PayloadAction<LoginPayload>) {
-      state.isLoggedIn = true;
+    loginRequest(
+      state: UserState,
+      _action: PayloadAction<LoginRequestPayload>
+    ) {
+      state.userLoading = true;
+      state.error = null;
+    },
+    loginSuccess(state: UserState, action: PayloadAction<{ userId: number }>) {
+      state.userLoading = false;
       state.userData = action.payload;
     },
-    logoutAction(state: UserState) {
-      state.isLoggedIn = false;
+    loginFailure(state: UserState, action: PayloadAction<{ error: any }>) {
+      state.userLoading = false;
+      state.error = action.payload;
+    },
+    logoutRequest(state: UserState) {
+      state.userLoading = true;
+      state.error = null;
+    },
+    logoutSuccess(state: UserState) {
+      state.userLoading = false;
       state.userData = null;
+    },
+    logoutFailure(state: UserState, action: PayloadAction<{ error: any }>) {
+      state.userLoading = false;
+      state.error = action.payload;
     },
   },
 });
 
 const { reducer, actions } = userSlice;
-export const { loginAction, logoutAction } = actions;
+export const {
+  loginRequest,
+  loginSuccess,
+  loginFailure,
+  logoutRequest,
+  logoutSuccess,
+  logoutFailure,
+} = actions;
 export default reducer;

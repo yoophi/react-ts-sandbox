@@ -1,20 +1,22 @@
-import { LoginPayload, loginAction, logoutAction } from "./user";
+import { loginRequest, logoutRequest } from "./user";
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from ".";
 import { useCallback } from "react";
 
 export default function useUser() {
-  const { isLoggedIn } = useSelector((state: RootState) => state.user);
+  const { userLoading, userData, error } = useSelector(
+    (state: RootState) => state.user
+  );
   const dispatch = useDispatch();
 
   const login = useCallback((data: any) => {
-    dispatch(loginAction(data));
+    dispatch(loginRequest(data));
   }, []);
 
   const logout = useCallback(() => {
-    dispatch(logoutAction());
+    dispatch(logoutRequest());
   }, []);
 
-  return { isLoggedIn, login, logout };
+  return { userLoading, userData, error, login, logout };
 }

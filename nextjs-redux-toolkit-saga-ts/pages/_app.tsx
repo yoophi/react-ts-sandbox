@@ -1,7 +1,7 @@
 import { AppProps } from "next/app";
 import { NextPage } from "next";
-import wrapper from "../store/configureStore"; //좀전에 만든 store.tsx 파일
-
+import withReduxSaga from "next-redux-saga";
+import wrapper from "../store/configureStore";
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
     <>
@@ -10,4 +10,4 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-export default wrapper.withRedux(MyApp);
+export default wrapper.withRedux(withReduxSaga(MyApp));

@@ -3,7 +3,7 @@ import Link from "next/link";
 import useUser from "../store/modules/userHook";
 
 const IndexPage = () => {
-  const { isLoggedIn, login, logout } = useUser();
+  const { userLoading, userData, error, login, logout } = useUser();
 
   return (
     <Layout title="Home | Next.js + TypeScript Example">
@@ -13,9 +13,11 @@ const IndexPage = () => {
           <a>About</a>
         </Link>
       </p>
-      <pre>{JSON.stringify({ isLoggedIn }, null, 2)}</pre>
+      <pre>{JSON.stringify({ userLoading, userData, error }, null, 2)}</pre>
       <div>
-        <button onClick={login}>login</button>
+        <button onClick={() => login({ userId: "john", password: "password" })}>
+          login
+        </button>
         <button onClick={logout}>logout</button>
       </div>
     </Layout>
